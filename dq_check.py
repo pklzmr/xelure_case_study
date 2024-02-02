@@ -1,11 +1,8 @@
-#Data Quality Check
 import pandas as pd
 import glob
 import os
 from datetime import date
 
-#146655907
-#150325348
 enh_loan_column_mapping = {
         'Investor Loan #': "int",
         'Scheduled Principal': "float",
@@ -17,16 +14,13 @@ enh_loan_column_mapping = {
         'Principal Losses': "float",
         'Determination Date': "date",
     }
-#columns_to_check = ["Investor Loan #","Scheduled Principal","Curtailments","Curtailment Adjustments","Prepayment",
-#                    "Liquidation Principal","Repurchase Principal","Principal Losses","Determination Date"]
+
 def check_missing_values(csv_file):
     df = pd.read_csv(csv_file)
     print('...Checking for missing values')
-    # Check for missing values
     missing_values = df[enh_loan_column_mapping.keys()].isnull().sum()
-
-    # Display the columns with missing values
     columns_with_missing = missing_values[missing_values > 0]
+    
     if not columns_with_missing.empty:
         print("Columns with missing values:")
         print(columns_with_missing)

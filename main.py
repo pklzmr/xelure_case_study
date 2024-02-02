@@ -26,7 +26,6 @@ def load_data():
     conn = sqlite3.connect('/Users/pklzmr/Desktop/Xelur Case Study/xelure_case_study/loan_details.db')
     cursor = conn.cursor()
 
-    #Load enhanced loan level data 
     enh_loan_lvl_path = '/Users/pklzmr/Desktop/Xelur Case Study/xelure_case_study/enhanced_loan_level_data/*.csv'
     enh_loan_lvl_files = glob.glob(enh_loan_lvl_path)
 
@@ -36,7 +35,6 @@ def load_data():
         with open(enh_loan_lvl_file, 'r') as csv_file:
             csv_reader = csv.DictReader(csv_file)
 
-                # Assuming the first row contains column names
             for row in csv_reader:
                 mapped_values = {
                 database_column: row.get(csv_column, '').lstrip('0') if csv_column == 'Investor Loan #' else row.get(csv_column, '')
@@ -45,12 +43,9 @@ def load_data():
             } 
                 query = f'INSERT INTO enhanced_loan_level_data ({", ".join(mapped_values.keys())}) VALUES ({", ".join("?" * len(mapped_values))})'
                 cursor.execute(query, list(mapped_values.values()))
-
-    
+   
     principal_funds_file = '/Users/pklzmr/Desktop/Xelur Case Study/xelure_case_study/TotalPrincipalFunds.csv'
-
     print(f'Processing: {principal_funds_file}')
-
     with open(principal_funds_file, 'r') as csv_file:
          csv_reader = csv.DictReader(csv_file)
 
